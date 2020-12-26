@@ -9,7 +9,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # visuals
   cupertino_icons: ^1.0.0
+  # state management
+  flutter_bloc: ^6.1.1
+  hydrated_bloc: ^6.1.0
+  equatable: ^1.2.5
+  shared_preferences: '>=0.5.12+4 <2.0.0' # save user preferences
 
 dev_dependencies:
   flutter_test:
