@@ -1,0 +1,4 @@
+enum CurrentPlayer {
+  White,
+  Black,
+}
