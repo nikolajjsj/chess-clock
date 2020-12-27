@@ -6,6 +6,7 @@ import 'package:chessclock/misc/utils/time_utils.dart';
 import 'package:chessclock/widgets/detail_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ClockScreen extends StatefulWidget {
   static Route route(ChessClock chessClock) {
@@ -112,6 +113,7 @@ class _ClockScreenState extends State<ClockScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIOverlays([]);
     _whiteStart = widget.chessClock.white.time;
     _blackStart = widget.chessClock.black.time;
   }
@@ -120,6 +122,7 @@ class _ClockScreenState extends State<ClockScreen> {
   void dispose() {
     _whiteTimer?.cancel();
     _blackTimer?.cancel();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     super.dispose();
   }
 
