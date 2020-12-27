@@ -223,6 +223,7 @@ class ChessPlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sHeight = MediaQuery.of(context).size.height;
     final timesOut = time <= 0;
     final bool isCurrent = currentPlayer == CurrentPlayer.White
         ? isWhite
@@ -244,50 +245,54 @@ class ChessPlayerWidget extends StatelessWidget {
         ),
     ];
 
-    return Expanded(
-      flex: isPlaying && isCurrent ? 4 : 1,
-      child: InkWell(
-        onTap: () => isCurrent && isPlaying ? playFunction.call() : null,
-        child: RotatedBox(
-          quarterTurns: isWhite ? 0 : 2,
-          child: Container(
-            color: isWhite ? Colors.white : Colors.grey,
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: SafeArea(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          getTimeStringFromDouble(time),
-                          style: TextStyle(
-                            color: isWhite ? Colors.grey : Colors.white,
-                            fontSize: 52.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+    return InkWell(
+      onTap: () => isCurrent && isPlaying ? playFunction.call() : null,
+      child: RotatedBox(
+        quarterTurns: isWhite ? 0 : 2,
+        child: AnimatedContainer(
+          color: isWhite ? Colors.white : Colors.grey,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          height: isPlaying
+              ? isCurrent
+                  ? (sHeight * .75)
+                  : (sHeight * .25)
+              : (sHeight * .5),
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOutCubic,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: SafeArea(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        getTimeStringFromDouble(time),
+                        style: TextStyle(
+                          color: isWhite ? Colors.grey : Colors.white,
+                          fontSize: 52.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Row(children: _details),
-                      ],
-                    ),
-                    const Spacer(),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 150),
-                      child: isPlaying && isCurrent && !timesOut
-                          ? FloatingActionButton(
-                              backgroundColor: Colors.red,
-                              child: Icon(Icons.pause_rounded,
-                                  color: Colors.white),
-                              onPressed: () => pauseFunction.call(),
-                            )
-                          : const SizedBox(),
-                    ),
-                  ],
-                ),
+                      ),
+                      Row(children: _details),
+                    ],
+                  ),
+                  const Spacer(),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 150),
+                    child: isPlaying && isCurrent && !timesOut
+                        ? FloatingActionButton(
+                            backgroundColor: Colors.red,
+                            child:
+                                Icon(Icons.pause_rounded, color: Colors.white),
+                            onPressed: () => pauseFunction.call(),
+                          )
+                        : const SizedBox(),
+                  ),
+                ],
               ),
             ),
           ),
