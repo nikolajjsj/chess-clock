@@ -1,11 +1,14 @@
 import 'package:chessclock/misc/default/default_clocks.dart';
 import 'package:chessclock/misc/models/clock_model.dart';
+import 'package:chessclock/misc/utils/time_utils.dart';
 import 'package:chessclock/screens/clock/clock_screen.dart';
 import 'package:chessclock/screens/settings/settings_screen.dart';
 import 'package:chessclock/widgets/detail_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,12 +55,20 @@ class ClockCard extends StatelessWidget {
                 children: [
                   DetailCard(
                     iconData: Icons.alarm,
-                    detail: chessClock.white.time.toStringAsFixed(0),
+                    detail: getTimeStringFromDouble(
+                      chessClock.white.time,
+                      showDecimal: false,
+                    ),
+                    showSeconds: false,
                   ),
                   DetailCard(
-                    backgroundColor: Colors.grey[500],
+                    backgroundColor: Colors.grey[700],
                     iconData: Icons.alarm,
-                    detail: chessClock.black.time.toStringAsFixed(0),
+                    detail: getTimeStringFromDouble(
+                      chessClock.black.time,
+                      showDecimal: false,
+                    ),
+                    showSeconds: false,
                   ),
                 ],
               ),
@@ -69,7 +80,7 @@ class ClockCard extends StatelessWidget {
                       detail: chessClock.white.increment.toStringAsFixed(0),
                     ),
                     DetailCard(
-                      backgroundColor: Colors.grey[500],
+                      backgroundColor: Colors.grey[700],
                       iconData: Icons.arrow_upward_rounded,
                       detail: chessClock.black.increment.toStringAsFixed(0),
                     ),
@@ -83,7 +94,7 @@ class ClockCard extends StatelessWidget {
                       detail: chessClock.white.delay.toStringAsFixed(0),
                     ),
                     DetailCard(
-                      backgroundColor: Colors.grey[500],
+                      backgroundColor: Colors.grey[700],
                       iconData: Icons.timer_rounded,
                       detail: chessClock.black.delay.toStringAsFixed(0),
                     ),
