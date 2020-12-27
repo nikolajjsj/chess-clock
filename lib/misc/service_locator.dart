@@ -1,4 +1,3 @@
-import 'package:chessclock/misc/preferences/layout_preferences.dart';
 import 'package:chessclock/misc/preferences/preferences.dart';
 import 'package:get_it/get_it.dart';
 
@@ -9,6 +8,5 @@ void setupServiceLocator() {
   app
 
     /// preferences
-    ..registerLazySingleton<AppPreferences>(() => AppPreferences())
-    ..registerLazySingleton<LayoutPreferences>(() => LayoutPreferences());
+    ..registerLazySingleton<AppPreferences>(() => AppPreferences());
 }

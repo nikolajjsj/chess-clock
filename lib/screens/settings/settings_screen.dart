@@ -1,7 +1,7 @@
-import 'package:chessclock/misc/preferences/layout_preferences.dart';
-import 'package:chessclock/misc/service_locator.dart';
+import 'package:chessclock/misc/preferences/bloc/theme_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
   static Route route() {
@@ -15,30 +15,32 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    final _followSystem = app<LayoutPreferences>().followSystemTheme;
-    final _lightTheme = app<LayoutPreferences>().lightTheme;
-
     return Scaffold(
       appBar: AppBar(title: Text('Settings'), centerTitle: true),
       body: ListView(
         children: [
-          SwitchListTile(
-            title: Text('Follow system theme'),
-            value: _followSystem,
-            onChanged: (val) {
-              app<LayoutPreferences>().followSystemTheme = val;
-              setState(() {});
+          BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, state) {
+              return SwitchListTile(
+                title: Text('Follow system theme'),
+                value: state.followSystem,
+                onChanged: (val) => context
+                    .read<ThemeBloc>()
+                    .add(ChangeTheme(light: state.light, followSystem: val)),
+              );
             },
           ),
-          SwitchListTile(
-            title: Text('Light theme'),
-            value: _lightTheme,
-            onChanged: _followSystem
-                ? null
-                : (val) {
-                    app<LayoutPreferences>().lightTheme = val;
-                    setState(() {});
-                  },
+          BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, state) {
+              return SwitchListTile(
+                title: Text('Light theme'),
+                value: state.light,
+                onChanged: state.followSystem
+                    ? null
+                    : (val) => context.read<ThemeBloc>().add(ChangeTheme(
+                        followSystem: state.followSystem, light: val)),
+              );
+            },
           ),
         ],
       ),
