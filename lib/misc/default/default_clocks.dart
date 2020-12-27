@@ -52,9 +52,4 @@ final List<ChessClock> predefinedClocks = <ChessClock>[
     white: ChessTimer(time: 900, increment: 15),
     black: ChessTimer(time: 900, increment: 15),
   ),
-  ChessClock(
-    name: 'Test',
-    white: ChessTimer(time: 300, increment: 3, delay: 3),
-    black: ChessTimer(time: 300, increment: 3, delay: 3),
-  ),
 ];
