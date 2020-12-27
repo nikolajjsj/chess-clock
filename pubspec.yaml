@@ -22,9 +22,18 @@ dependencies:
   flutter_material_pickers: ^1.8.1
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.8.1
   flutter_test:
     sdk: flutter
+  
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+  image_path_android: "assets/icon/icon_android.png"
+  image_path_ios: "assets/icon/icon_ios.png"
+
 flutter:
   uses-material-design: true
-  # assets:
-  #   - assets/
+  assets:
+    - assets/
