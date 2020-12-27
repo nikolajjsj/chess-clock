@@ -5,12 +5,14 @@ class DetailCard extends StatelessWidget {
   final String detail;
   final IconData iconData;
   final Color backgroundColor;
+  final bool showSeconds;
 
   const DetailCard({
     Key key,
     @required this.detail,
     @required this.iconData,
-    this.backgroundColor,
+    this.backgroundColor = Colors.grey,
+    this.showSeconds = true,
   }) : super(key: key);
 
   @override
@@ -30,7 +32,7 @@ class DetailCard extends StatelessWidget {
             ),
             const SizedBox(width: 4.0),
             Text(
-              detail + (double.parse(detail) >= 60 ? '' : 's'),
+              detail + (showSeconds ? 's' : ''),
               style: TextStyle(
                 color: backgroundColor != null
                     ? getContrastColor(backgroundColor)
