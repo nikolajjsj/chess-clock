@@ -18,6 +18,8 @@ dependencies:
   shared_preferences: ">=0.5.12+4 <2.0.0" # save user preferences
   # service to save instances
   get_it: ^5.0.0
+  # for clocker durations
+  flutter_material_pickers: ^1.8.1
 
 dev_dependencies:
   flutter_test:
