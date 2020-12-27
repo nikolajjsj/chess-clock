@@ -54,6 +54,7 @@ class ClockCard extends StatelessWidget {
               Column(
                 children: [
                   DetailCard(
+                    forWhite: true,
                     iconData: Icons.alarm,
                     detail: getTimeStringFromDouble(
                       chessClock.white.time,
@@ -62,7 +63,7 @@ class ClockCard extends StatelessWidget {
                     showSeconds: false,
                   ),
                   DetailCard(
-                    backgroundColor: Colors.grey[700],
+                    forWhite: false,
                     iconData: Icons.alarm,
                     detail: getTimeStringFromDouble(
                       chessClock.black.time,
@@ -76,11 +77,12 @@ class ClockCard extends StatelessWidget {
                 Column(
                   children: [
                     DetailCard(
+                      forWhite: true,
                       iconData: Icons.arrow_upward_rounded,
                       detail: chessClock.white.increment.toStringAsFixed(0),
                     ),
                     DetailCard(
-                      backgroundColor: Colors.grey[700],
+                      forWhite: false,
                       iconData: Icons.arrow_upward_rounded,
                       detail: chessClock.black.increment.toStringAsFixed(0),
                     ),
@@ -90,11 +92,12 @@ class ClockCard extends StatelessWidget {
                 Column(
                   children: [
                     DetailCard(
+                      forWhite: true,
                       iconData: Icons.timer_rounded,
                       detail: chessClock.white.delay.toStringAsFixed(0),
                     ),
                     DetailCard(
-                      backgroundColor: Colors.grey[700],
+                      forWhite: false,
                       iconData: Icons.timer_rounded,
                       detail: chessClock.black.delay.toStringAsFixed(0),
                     ),

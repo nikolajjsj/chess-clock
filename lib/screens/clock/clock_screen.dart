@@ -235,11 +235,13 @@ class ChessPlayerWidget extends StatelessWidget {
     final List<Widget> _details = [
       if (chessTimer.increment != null)
         DetailCard(
+          forWhite: isWhite,
           iconData: Icons.arrow_upward_rounded,
           detail: chessTimer.increment.toString(),
         ),
       if (chessTimer.delay != null)
         DetailCard(
+          forWhite: isWhite,
           iconData: Icons.timer_rounded,
           detail: chessTimer.delay.toString(),
         ),
