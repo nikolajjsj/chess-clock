@@ -4,7 +4,6 @@ import 'package:chessclock/misc/utils/time_utils.dart';
 import 'package:chessclock/screens/add_clock/bloc/add_clock_bloc.dart';
 import 'package:chessclock/widgets/dialog/time_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

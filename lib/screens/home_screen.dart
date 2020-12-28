@@ -1,5 +1,4 @@
 import 'package:chessclock/misc/default/default_clocks.dart';
-import 'package:chessclock/screens/add_clock/add_clock_screen.dart';
 import 'package:chessclock/screens/custom_screen.dart';
 import 'package:chessclock/screens/settings/settings_screen.dart';
 import 'package:chessclock/widgets/FAB/home_fab.dart';
