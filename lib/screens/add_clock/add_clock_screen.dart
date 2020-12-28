@@ -2,6 +2,7 @@ import 'package:chessclock/misc/models/clock_model.dart';
 import 'package:chessclock/misc/models/timer_model.dart';
 import 'package:chessclock/misc/utils/time_utils.dart';
 import 'package:chessclock/screens/add_clock/bloc/add_clock_bloc.dart';
+import 'package:chessclock/widgets/dialog/time_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter/cupertino.dart';
@@ -162,16 +163,14 @@ class _ClockCreationCardState extends State<ClockCreationCard> {
                           ),
                         ),
                         color: Colors.grey[200],
-                        onPressed: () => showMaterialNumberPicker(
+                        onPressed: () => showDialog(
                           context: context,
-                          title: "White's time (seconds)",
-                          maxNumber: 9000,
-                          minNumber: 0,
-                          selectedNumber: widget.white.toInt(),
-                          onChanged: (val) {
-                            widget.changeWhite(val.toDouble());
-                            if (isComparing) widget.changeBlack(val.toDouble());
-                          },
+                          builder: (context) => TimeDialog(
+                            onChanged: (val) {
+                              widget.changeWhite(val);
+                              if (isComparing) widget.changeBlack(val);
+                            },
+                          ),
                         ),
                       ),
                       RaisedButton(
@@ -184,16 +183,14 @@ class _ClockCreationCardState extends State<ClockCreationCard> {
                           ),
                         ),
                         color: Colors.grey[900],
-                        onPressed: () => showMaterialNumberPicker(
+                        onPressed: () => showDialog(
                           context: context,
-                          title: "Black's time (seconds)",
-                          maxNumber: 9000,
-                          minNumber: 0,
-                          selectedNumber: widget.black.toInt(),
-                          onChanged: (val) {
-                            widget.changeBlack(val.toDouble());
-                            if (isComparing) widget.changeWhite(val.toDouble());
-                          },
+                          builder: (context) => TimeDialog(
+                            onChanged: (val) {
+                              widget.changeBlack(val);
+                              if (isComparing) widget.changeWhite(val);
+                            },
+                          ),
                         ),
                       ),
                     ],
