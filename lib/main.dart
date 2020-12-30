@@ -1,3 +1,4 @@
+import 'package:chessclock/misc/message_service/message_widget.dart';
 import 'package:chessclock/misc/preferences/bloc/theme_bloc.dart';
 import 'package:chessclock/misc/preferences/preferences.dart';
 import 'package:chessclock/misc/service_locator.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
                   : ThemeData.dark(),
           title: 'Chess Clock',
           home: const HomeScreen(),
+          builder: (context, child) => MessageWidget(child: child),
         ),
       ),
     );
