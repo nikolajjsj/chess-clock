@@ -1,3 +1,4 @@
+import 'package:chessclock/misc/message_service/message_service.dart';
 import 'package:chessclock/misc/models/clock_model.dart';
 import 'package:chessclock/misc/models/timer_model.dart';
 import 'package:chessclock/misc/utils/time_utils.dart';
@@ -6,6 +7,7 @@ import 'package:chessclock/widgets/dialog/time_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:chessclock/misc/service_locator.dart';
 
 class AddClockScreen extends StatefulWidget {
   static Route route() {
@@ -47,6 +49,18 @@ class _AddClockScreenState extends State<AddClockScreen> {
         ),
       );
 
+  addChessClock() {
+    if (whiteTime == 0.0 || blackTime == 0.0) {
+      return app<MessageService>().show('White/Black time cannot be 0');
+    } else if (title == '') {
+      return app<MessageService>().show('Clock title is missing');
+    } else {
+      BlocProvider.of<AddClockBloc>(context)
+          .add(AddCustomClock(chessClock: getChessClock()));
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +69,7 @@ class _AddClockScreenState extends State<AddClockScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check_rounded),
-        onPressed: () {
-          BlocProvider.of<AddClockBloc>(context)
-              .add(AddCustomClock(chessClock: getChessClock()));
-          Navigator.of(context).pop();
-        },
+        onPressed: addChessClock(),
       ),
       body: ListView(
         children: [

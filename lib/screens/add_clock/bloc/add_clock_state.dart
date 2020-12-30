@@ -7,7 +7,7 @@ abstract class AddClockState extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadingCustomClocks extends AddClockState {}
+class NoCustomClocks extends AddClockState {}
 
 class CustomClocksLoaded extends AddClockState {
   final List<ChessClock> timers;

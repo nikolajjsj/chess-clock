@@ -7,20 +7,20 @@ part 'add_clock_event.dart';
 part 'add_clock_state.dart';
 
 class AddClockBloc extends HydratedBloc<AddClockEvent, AddClockState> {
-  AddClockBloc() : super(LoadingCustomClocks());
+  AddClockBloc() : super(NoCustomClocks());
 
   @override
   AddClockState fromJson(Map<String, dynamic> json) {
-    if (json['timers'].isEmpty) return LoadingCustomClocks();
-    return CustomClocksLoaded(
-      timers: json['timers'].map((json) => ChessClock.fromJson(json)).toList(),
-    );
+    if (json['timers'].isEmpty) return NoCustomClocks();
+    List<ChessClock> _clocks = <ChessClock>[];
+    for (var json in json['timers']) _clocks.add(ChessClock.fromJson(json));
+    return CustomClocksLoaded(timers: _clocks);
   }
 
   @override
   Map<String, dynamic> toJson(AddClockState state) {
     if (state is CustomClocksLoaded) {
-      return {'timers': state.timers.map((timer) => timer.toJson()).toList()};
+      return {'timers': state.timers.map((clock) => clock.toJson()).toList()};
     }
     return null;
   }
@@ -32,7 +32,7 @@ class AddClockBloc extends HydratedBloc<AddClockEvent, AddClockState> {
     final oldState = state;
 
     if (event is AddCustomClock) {
-      yield LoadingCustomClocks();
+      yield NoCustomClocks();
       if (oldState is CustomClocksLoaded) {
         List<ChessClock> _timers = oldState.timers;
         _timers.add(event.chessClock);
@@ -40,7 +40,7 @@ class AddClockBloc extends HydratedBloc<AddClockEvent, AddClockState> {
       }
       yield CustomClocksLoaded(timers: [event.chessClock]);
     } else if (event is RemoveCustomClock) {
-      yield LoadingCustomClocks();
+      yield NoCustomClocks();
       if (oldState is CustomClocksLoaded) {
         List<ChessClock> _timers = oldState.timers;
         _timers.removeAt(event.index);

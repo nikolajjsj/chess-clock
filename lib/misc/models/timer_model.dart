@@ -12,9 +12,9 @@ class ChessTimer {
   });
 
   ChessTimer.fromJson(Map<String, dynamic> json)
-      : time = double.parse(json['time']),
-        delay = int.parse(json['delay']),
-        increment = int.parse(json['increment']);
+      : time = json['time'],
+        delay = json['delay'],
+        increment = json['increment'];
 
   Map<String, dynamic> toJson() => {
         'time': time,

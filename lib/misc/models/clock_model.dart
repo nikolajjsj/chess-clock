@@ -13,7 +13,7 @@ class ChessClock {
   });
 
   ChessClock.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
+      : name = json['name'] ?? '',
         white = ChessTimer.fromJson(json['white']),
         black = ChessTimer.fromJson(json['black']);
 
