@@ -12,4 +12,8 @@ class AppPreferences {
     _preferences = await SharedPreferences.getInstance();
     print('initialized preferences');
   }
+
+  /// Whether to show compact layout of timers
+  bool get compact => preferences.getBool('compact') ?? false;
+  set compact(bool value) => preferences.setBool('compact', value);
 }

@@ -1,8 +1,7 @@
-import 'package:chessclock/misc/default/default_clocks.dart';
 import 'package:chessclock/screens/custom_screen.dart';
+import 'package:chessclock/screens/default_screen.dart';
 import 'package:chessclock/screens/settings/settings_screen.dart';
 import 'package:chessclock/widgets/FAB/home_fab.dart';
-import 'package:chessclock/widgets/clock_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -64,11 +63,7 @@ class _HomeScreenState extends State<HomeScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          ListView.builder(
-            itemCount: predefinedClocks.length,
-            itemBuilder: (context, index) =>
-                ClockCard(chessClock: predefinedClocks[index]),
-          ),
+          const DefaultScreen(),
           const CustomScreen(),
         ],
       ),

@@ -2,7 +2,7 @@ import 'package:chessclock/misc/models/clock_model.dart';
 import 'package:chessclock/screens/add_clock/add_clock_screen.dart';
 import 'package:chessclock/screens/add_clock/bloc/add_clock_bloc.dart';
 import 'package:chessclock/screens/clock/clock_screen.dart';
-import 'package:chessclock/widgets/clock_card.dart';
+import 'package:chessclock/widgets/clock_cards/clock_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

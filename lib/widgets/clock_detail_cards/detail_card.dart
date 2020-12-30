@@ -11,7 +11,7 @@ class DetailCard extends StatelessWidget {
     Key key,
     @required this.detail,
     @required this.iconData,
-    @required this.forWhite,
+    this.forWhite = true,
     this.showSeconds = true,
   }) : super(key: key);
 

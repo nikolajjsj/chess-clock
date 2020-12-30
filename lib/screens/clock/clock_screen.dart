@@ -3,7 +3,7 @@ import 'package:chessclock/misc/models/clock_model.dart';
 import 'package:chessclock/misc/models/player_enum.dart';
 import 'package:chessclock/misc/models/timer_model.dart';
 import 'package:chessclock/misc/utils/time_utils.dart';
-import 'package:chessclock/widgets/detail_card.dart';
+import 'package:chessclock/widgets/clock_detail_cards/detail_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

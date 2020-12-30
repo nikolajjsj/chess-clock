@@ -1,7 +1,7 @@
 import 'package:chessclock/misc/models/clock_model.dart';
 import 'package:chessclock/misc/utils/time_utils.dart';
 import 'package:chessclock/screens/clock/clock_screen.dart';
-import 'package:chessclock/widgets/detail_card.dart';
+import 'package:chessclock/widgets/clock_detail_cards/detail_card.dart';
 import 'package:flutter/material.dart';
 
 class ClockCard extends StatelessWidget {
@@ -26,7 +26,6 @@ class ClockCard extends StatelessWidget {
               Column(
                 children: [
                   DetailCard(
-                    forWhite: true,
                     iconData: Icons.alarm,
                     detail: getTimeStringFromDouble(
                       chessClock.white.time,
@@ -49,7 +48,6 @@ class ClockCard extends StatelessWidget {
                 Column(
                   children: [
                     DetailCard(
-                      forWhite: true,
                       iconData: Icons.arrow_upward_rounded,
                       detail: chessClock.white.increment.toStringAsFixed(0),
                     ),
@@ -64,7 +62,6 @@ class ClockCard extends StatelessWidget {
                 Column(
                   children: [
                     DetailCard(
-                      forWhite: true,
                       iconData: Icons.timer_rounded,
                       detail: chessClock.white.delay.toStringAsFixed(0),
                     ),
