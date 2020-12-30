@@ -10,23 +10,28 @@ import 'package:flutter/material.dart';
 import 'package:chessclock/misc/service_locator.dart';
 
 class AddClockScreen extends StatefulWidget {
-  static Route route() {
-    return CupertinoPageRoute(builder: (context) => AddClockScreen());
+  static Route route({ChessClock chessClock}) {
+    return CupertinoPageRoute(
+      builder: (context) => AddClockScreen(chessClock: chessClock),
+    );
   }
+
+  final ChessClock chessClock;
+
+  const AddClockScreen({Key key, this.chessClock}) : super(key: key);
 
   @override
   _AddClockScreenState createState() => _AddClockScreenState();
 }
 
 class _AddClockScreenState extends State<AddClockScreen> {
-  String title = '';
-
-  double whiteTime = 0.0;
-  double blackTime = 0.0;
-  double whiteIncrement = 0.0;
-  double blackIncrement = 0.0;
-  double whiteDelay = 0.0;
-  double blackDelay = 0.0;
+  TextEditingController _textController = TextEditingController();
+  double whiteTime;
+  double blackTime;
+  double whiteIncrement;
+  double blackIncrement;
+  double whiteDelay;
+  double blackDelay;
 
   void changeWhiteTime(double val) => setState(() => whiteTime = val);
   void changeBlackTime(double val) => setState(() => blackTime = val);
@@ -36,7 +41,7 @@ class _AddClockScreenState extends State<AddClockScreen> {
   void changeBlackDelay(double val) => setState(() => blackDelay = val);
 
   ChessClock getChessClock() => ChessClock(
-        name: title,
+        name: _textController.text,
         white: ChessTimer(
           time: whiteTime,
           increment: whiteIncrement == 0.0 ? null : whiteIncrement.toInt(),
@@ -51,8 +56,10 @@ class _AddClockScreenState extends State<AddClockScreen> {
 
   addChessClock() {
     if (whiteTime == 0.0 || blackTime == 0.0) {
-      return app<MessageService>().show('White/Black time cannot be 0');
-    } else if (title == '') {
+      return app<MessageService>().show(
+        'Whites and blacks time should be at least 1 second',
+      );
+    } else if (_textController.text == '') {
       return app<MessageService>().show('Clock title is missing');
     } else {
       BlocProvider.of<AddClockBloc>(context)
@@ -62,26 +69,36 @@ class _AddClockScreenState extends State<AddClockScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _textController.text = widget.chessClock?.name ?? '';
+    whiteTime = widget.chessClock?.white?.time ?? 0.0;
+    blackTime = widget.chessClock?.black?.time ?? 0.0;
+    whiteIncrement = widget.chessClock?.white?.increment?.toDouble() ?? 0.0;
+    blackIncrement = widget.chessClock?.black?.increment?.toDouble() ?? 0.0;
+    whiteDelay = widget.chessClock?.white?.delay?.toDouble() ?? 0.0;
+    blackDelay = widget.chessClock?.black?.delay?.toDouble() ?? 0.0;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Clock'),
-      ),
+      appBar: AppBar(title: Text('Add Clock'), centerTitle: true),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check_rounded),
-        onPressed: addChessClock(),
+        onPressed: () => addChessClock(),
       ),
       body: ListView(
         children: [
           Card(
             child: TextField(
+              controller: _textController,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Clock title',
               ),
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
-              onChanged: (string) => setState(() => title = string),
-              onSubmitted: (string) => setState(() => title = string),
             ),
           ),
           ClockCreationCard(

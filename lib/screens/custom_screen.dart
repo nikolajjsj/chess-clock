@@ -1,4 +1,5 @@
 import 'package:chessclock/misc/models/clock_model.dart';
+import 'package:chessclock/screens/add_clock/add_clock_screen.dart';
 import 'package:chessclock/screens/add_clock/bloc/add_clock_bloc.dart';
 import 'package:chessclock/screens/clock/clock_screen.dart';
 import 'package:chessclock/widgets/clock_card.dart';
@@ -24,11 +25,33 @@ class CustomScreen extends StatelessWidget {
                 onLongPress: () => showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: Text('Delete clock?'),
-                    content: Icon(
-                      Icons.delete_rounded,
-                      color: Colors.red,
-                      size: 42.0,
+                    contentPadding: EdgeInsets.zero,
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: const Icon(
+                            Icons.content_copy_rounded,
+                            color: Colors.teal,
+                          ),
+                          title: const Text('Duplicate clock'),
+                          onTap: () => Navigator.of(context).pushReplacement(
+                            AddClockScreen.route(chessClock: _timer),
+                          ),
+                        ),
+                        ListTile(
+                          leading: const Icon(
+                            Icons.delete_rounded,
+                            color: Colors.red,
+                          ),
+                          title: const Text('Delete'),
+                          onTap: () {
+                            BlocProvider.of<AddClockBloc>(context)
+                                .add(RemoveCustomClock(index: index));
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
                     ),
                     actions: [
                       FlatButton(
@@ -37,21 +60,6 @@ class CustomScreen extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      FlatButton(
-                        child: Text(
-                          'DELETE',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onPressed: () {
-                          BlocProvider.of<AddClockBloc>(context).add(
-                            RemoveCustomClock(index: index),
-                          );
-                          Navigator.of(context).pop();
-                        },
                       ),
                     ],
                   ),
