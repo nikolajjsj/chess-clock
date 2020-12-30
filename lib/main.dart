@@ -34,23 +34,28 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          themeMode: state.followSystem ? ThemeMode.system : ThemeMode.light,
-          darkTheme: state.followSystem
+        builder: (context, state) {
+          final _darkTheme = state.followSystem
               ? ThemeData.dark()
               : state.light
                   ? ThemeData.light()
-                  : ThemeData.dark(),
-          theme: state.followSystem
+                  : ThemeData.dark();
+          final _lightTheme = state.followSystem
               ? ThemeData.light()
               : state.light
                   ? ThemeData.light()
-                  : ThemeData.dark(),
-          title: 'Chess Clock',
-          home: const HomeScreen(),
-          builder: (context, child) => MessageWidget(child: child),
-        ),
+                  : ThemeData.dark();
+
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            themeMode: state.followSystem ? ThemeMode.system : ThemeMode.light,
+            darkTheme: _darkTheme,
+            theme: _lightTheme,
+            title: 'Chess Clock',
+            home: const HomeScreen(),
+            builder: (context, child) => MessageWidget(child: child),
+          );
+        },
       ),
     );
   }
