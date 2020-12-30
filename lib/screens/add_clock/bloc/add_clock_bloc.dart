@@ -37,6 +37,7 @@ class AddClockBloc extends HydratedBloc<AddClockEvent, AddClockState> {
         List<ChessClock> _timers = oldState.timers;
         _timers.add(event.chessClock);
         yield CustomClocksLoaded(timers: _timers);
+        return;
       }
       yield CustomClocksLoaded(timers: [event.chessClock]);
     } else if (event is RemoveCustomClock) {
@@ -45,6 +46,7 @@ class AddClockBloc extends HydratedBloc<AddClockEvent, AddClockState> {
         List<ChessClock> _timers = oldState.timers;
         _timers.removeAt(event.index);
         yield CustomClocksLoaded(timers: _timers);
+        return;
       }
       yield CustomClocksLoaded(timers: []);
     }
