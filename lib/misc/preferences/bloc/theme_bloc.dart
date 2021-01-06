@@ -13,17 +13,17 @@ class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
       : super(ThemeState(
           id: 0,
           themeData: predefinedThemes[0].data,
-          followSystem: true,
+          followSystem: false,
         ));
 
   @override
   ThemeState fromJson(Map<String, dynamic> json) {
-    int themeId = json['theme'] as int;
-    bool followSystem = json['followSystem'];
+    int themeId = json['theme'] as int ?? 0;
+    bool followSystem = json['followSystem'] ?? false;
     return ThemeState(
-      id: themeId ?? 0,
+      id: themeId,
       themeData: themes[themeId].data,
-      followSystem: followSystem ?? true,
+      followSystem: followSystem,
     );
   }
 
