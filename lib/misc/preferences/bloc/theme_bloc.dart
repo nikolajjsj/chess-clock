@@ -30,8 +30,8 @@ class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
   @override
   Map<String, dynamic> toJson(ThemeState state) {
     return {
-      'theme': state.id,
-      'followSystem': state.followSystem,
+      'theme': state.id ?? 0,
+      'followSystem': state.followSystem ?? false,
     };
   }
 
