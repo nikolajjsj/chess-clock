@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen>
           fontWeightDelta: 2,
         ),
         unselectedLabelStyle: _textTheme.bodyText2.apply(
-          fontSizeDelta: -2,
+          fontSizeDelta: -3,
           fontWeightDelta: 2,
         ),
         items: [
