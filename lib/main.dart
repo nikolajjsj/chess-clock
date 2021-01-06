@@ -1,5 +1,6 @@
 import 'package:chessclock/misc/message_service/message_widget.dart';
 import 'package:chessclock/misc/preferences/bloc/theme_bloc.dart';
+import 'package:chessclock/misc/preferences/models/default_themes.dart';
 import 'package:chessclock/misc/preferences/preferences.dart';
 import 'package:chessclock/misc/service_locator.dart';
 import 'package:chessclock/screens/add_clock/bloc/add_clock_bloc.dart';
@@ -35,22 +36,14 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
-          final _darkTheme = state.followSystem
-              ? ThemeData.dark()
-              : state.light
-                  ? ThemeData.light()
-                  : ThemeData.dark();
-          final _lightTheme = state.followSystem
-              ? ThemeData.light()
-              : state.light
-                  ? ThemeData.light()
-                  : ThemeData.dark();
+          final lightTheme = predefinedThemes[1].data;
+          final darkTheme = predefinedThemes[2].data;
 
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            theme: state.followSystem ? lightTheme : state.themeData,
+            darkTheme: state.followSystem ? darkTheme : state.themeData,
             themeMode: state.followSystem ? ThemeMode.system : ThemeMode.light,
-            darkTheme: _darkTheme,
-            theme: _lightTheme,
             title: 'Chess Clock',
             home: const HomeScreen(),
             builder: (context, child) => MessageWidget(child: child),

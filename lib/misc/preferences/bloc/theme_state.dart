@@ -1,11 +1,12 @@
 part of 'theme_bloc.dart';
 
 class ThemeState extends Equatable {
-  final bool light;
+  final int id;
+  final ThemeData themeData;
   final bool followSystem;
 
-  const ThemeState({this.light, this.followSystem});
+  const ThemeState({this.id, this.themeData, this.followSystem});
 
   @override
-  List<Object> get props => [light, followSystem];
+  List<Object> get props => [id, themeData, followSystem];
 }

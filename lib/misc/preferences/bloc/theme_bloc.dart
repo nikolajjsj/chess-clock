@@ -1,31 +1,41 @@
 import 'dart:async';
+import 'package:chessclock/misc/preferences/models/app_theme.dart';
+import 'package:chessclock/misc/preferences/models/default_themes.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';
 
 class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
-  ThemeBloc() : super(ThemeState(light: false, followSystem: false));
+  ThemeBloc()
+      : super(ThemeState(
+          id: 0,
+          themeData: predefinedThemes[0].data,
+          followSystem: true,
+        ));
 
   @override
   ThemeState fromJson(Map<String, dynamic> json) {
-    bool light = json['light'] as bool;
-    bool followSystem = json['followSystem'] as bool;
-
+    int themeId = json['theme'] as int;
+    bool followSystem = json['followSystem'];
     return ThemeState(
-      light: light ?? false,
-      followSystem: followSystem ?? false,
+      id: themeId ?? 0,
+      themeData: themes[themeId].data,
+      followSystem: followSystem ?? true,
     );
   }
 
   @override
   Map<String, dynamic> toJson(ThemeState state) {
     return {
-      'light': state.light,
+      'theme': state.id,
       'followSystem': state.followSystem,
     };
   }
+
+  List<AppTheme> themes = predefinedThemes;
 
   @override
   Stream<ThemeState> mapEventToState(
@@ -33,8 +43,9 @@ class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
   ) async* {
     if (event is ChangeTheme) {
       yield ThemeState(
-        light: event.light ?? false,
-        followSystem: event.followSystem ?? false,
+        id: event.id,
+        themeData: themes[event.id].data,
+        followSystem: event.followSystem ?? true,
       );
     }
   }

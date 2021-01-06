@@ -8,11 +8,11 @@ abstract class ThemeEvent extends Equatable {
 }
 
 class ChangeTheme extends ThemeEvent {
-  final bool light;
+  final int id;
   final bool followSystem;
 
-  const ChangeTheme({this.light, this.followSystem = false});
+  const ChangeTheme({this.id, this.followSystem = false});
 
   @override
-  List<Object> get props => [light, followSystem];
+  List<Object> get props => [id, followSystem];
 }
