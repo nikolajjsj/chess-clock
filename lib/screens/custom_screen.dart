@@ -1,5 +1,4 @@
 import 'package:chessclock/misc/models/clock_model.dart';
-import 'package:chessclock/screens/add_clock/add_clock_screen.dart';
 import 'package:chessclock/screens/add_clock/bloc/add_clock_bloc.dart';
 import 'package:chessclock/screens/clock/clock_screen.dart';
 import 'package:chessclock/widgets/clock_cards/clock_card.dart';
@@ -11,6 +10,8 @@ class CustomScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
+
     return BlocBuilder<AddClockBloc, AddClockState>(
       builder: (context, state) {
         if (state is CustomClocksLoaded) {
@@ -31,20 +32,13 @@ class CustomScreen extends StatelessWidget {
                       children: [
                         ListTile(
                           leading: const Icon(
-                            Icons.content_copy_rounded,
-                            color: Colors.teal,
-                          ),
-                          title: const Text('Duplicate clock'),
-                          onTap: () => Navigator.of(context).pushReplacement(
-                            AddClockScreen.route(chessClock: _timer),
-                          ),
-                        ),
-                        ListTile(
-                          leading: const Icon(
                             Icons.delete_rounded,
                             color: Colors.red,
                           ),
-                          title: const Text('Delete'),
+                          title: Text(
+                            'Delete',
+                            style: _theme.textTheme.bodyText2,
+                          ),
                           onTap: () {
                             BlocProvider.of<AddClockBloc>(context)
                                 .add(RemoveCustomClock(index: index));
@@ -55,10 +49,8 @@ class CustomScreen extends StatelessWidget {
                     ),
                     actions: [
                       FlatButton(
-                        child: Text(
-                          'CANCEL',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                        child:
+                            Text('CANCEL', style: _theme.textTheme.bodyText2),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                     ],

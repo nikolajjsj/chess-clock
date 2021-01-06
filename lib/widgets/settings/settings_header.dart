@@ -7,14 +7,15 @@ class SettingsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Text(
         title,
-        style: TextStyle(
-          fontSize: 16.0,
+        style: _theme.textTheme.bodyText2.copyWith(
           fontWeight: FontWeight.bold,
-          color: Theme.of(context).accentColor,
+          color: _theme.accentColor,
         ),
       ),
     );

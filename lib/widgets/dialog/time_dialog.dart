@@ -22,54 +22,62 @@ class _TimeDialogState extends State<TimeDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
+    final _textTheme = _theme.textTheme;
+    final _accentColor = _theme.accentColor;
+
     return AlertDialog(
-      title: Text(getTimeStringFromDouble(getReturnValue())),
       actions: [
         FlatButton(
-          child: Text('CONFIRM'),
+          child: Text('CONFIRM', style: _textTheme.bodyText2),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ],
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Hours'),
+          Text(
+            getTimeStringFromDouble(getReturnValue()),
+            style: _textTheme.headline5,
+          ),
+          const SizedBox(height: 24.0),
+          Text('Hours', style: _textTheme.bodyText2),
           Slider(
             value: _hours,
             min: 0,
             max: 10,
             divisions: 10,
             label: _hours.toStringAsFixed(0),
-            inactiveColor: Theme.of(context).primaryColor,
-            activeColor: Theme.of(context).accentColor,
+            inactiveColor: _accentColor,
+            activeColor: _accentColor,
             onChanged: (val) {
               setState(() => _hours = val);
               widget.onChanged.call(getReturnValue());
             },
           ),
-          Text('Minutes'),
+          Text('Minutes', style: _textTheme.bodyText2),
           Slider(
             value: _minutes,
             min: 0,
             max: 60,
             divisions: 60,
             label: _minutes.toStringAsFixed(0),
-            inactiveColor: Theme.of(context).primaryColor,
-            activeColor: Theme.of(context).accentColor,
+            inactiveColor: _accentColor,
+            activeColor: _accentColor,
             onChanged: (val) {
               setState(() => _minutes = val);
               widget.onChanged.call(getReturnValue());
             },
           ),
-          Text('Seconds'),
+          Text('Seconds', style: _textTheme.bodyText2),
           Slider(
             value: _seconds,
             min: 0,
             max: 60,
             divisions: 60,
             label: _seconds.toStringAsFixed(0),
-            inactiveColor: Theme.of(context).primaryColor,
-            activeColor: Theme.of(context).accentColor,
+            inactiveColor: _accentColor,
+            activeColor: _accentColor,
             onChanged: (val) {
               setState(() => _seconds = val);
               widget.onChanged.call(getReturnValue());

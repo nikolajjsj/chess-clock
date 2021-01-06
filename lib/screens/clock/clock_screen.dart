@@ -223,8 +223,9 @@ class ChessPlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sHeight = MediaQuery.of(context).size.height;
-    final timesOut = time <= 0;
+    final _blackColor = Colors.grey[900];
+    final _whiteColor = Colors.white;
+    final _sHeight = MediaQuery.of(context).size.height;
     final bool isCurrent = currentPlayer == CurrentPlayer.White
         ? isWhite
             ? true
@@ -232,33 +233,19 @@ class ChessPlayerWidget extends StatelessWidget {
         : isWhite
             ? false
             : true;
-    final List<Widget> _details = [
-      if (chessTimer.increment != null)
-        DetailCard(
-          forWhite: isWhite,
-          iconData: Icons.arrow_upward_rounded,
-          detail: chessTimer.increment.toString(),
-        ),
-      if (chessTimer.delay != null)
-        DetailCard(
-          forWhite: isWhite,
-          iconData: Icons.timer_rounded,
-          detail: chessTimer.delay.toString(),
-        ),
-    ];
 
     return InkWell(
       onTap: () => isCurrent && isPlaying ? playFunction.call() : null,
       child: RotatedBox(
         quarterTurns: isWhite ? 0 : 2,
         child: AnimatedContainer(
-          color: isWhite ? Colors.white : Colors.grey,
+          color: isWhite ? _whiteColor : _blackColor,
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           height: isPlaying
               ? isCurrent
-                  ? (sHeight * .75)
-                  : (sHeight * .25)
-              : (sHeight * .5),
+                  ? (_sHeight * .75)
+                  : (_sHeight * .25)
+              : (_sHeight * .5),
           duration: const Duration(milliseconds: 350),
           curve: Curves.easeOutCubic,
           child: Align(
@@ -274,18 +261,33 @@ class ChessPlayerWidget extends StatelessWidget {
                       Text(
                         getTimeStringFromDouble(time),
                         style: TextStyle(
-                          color: isWhite ? Colors.grey : Colors.white,
+                          color: isWhite ? _blackColor : _whiteColor,
                           fontSize: 52.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Row(children: _details),
+                      Row(
+                        children: [
+                          if (chessTimer.increment != null)
+                            DetailCard(
+                              forWhite: isWhite,
+                              iconData: Icons.arrow_upward_rounded,
+                              detail: chessTimer.increment.toString(),
+                            ),
+                          if (chessTimer.delay != null)
+                            DetailCard(
+                              forWhite: isWhite,
+                              iconData: Icons.timer_rounded,
+                              detail: chessTimer.delay.toString(),
+                            ),
+                        ],
+                      ),
                     ],
                   ),
                   const Spacer(),
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 150),
-                    child: isPlaying && isCurrent && !timesOut
+                    child: isPlaying && isCurrent && !(time <= 0)
                         ? FloatingActionButton(
                             backgroundColor: Colors.red,
                             child:

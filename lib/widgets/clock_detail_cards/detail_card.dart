@@ -19,6 +19,7 @@ class DetailCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = forWhite ? Colors.grey[300] : Colors.grey[900];
     final contrastColor = getContrastColor(color);
+    final textTheme = Theme.of(context).textTheme;
 
     return Card(
       color: color,
@@ -30,7 +31,10 @@ class DetailCard extends StatelessWidget {
             const SizedBox(width: 4.0),
             Text(
               detail + (showSeconds ? 's' : ''),
-              style: TextStyle(color: contrastColor),
+              style: textTheme.bodyText1.copyWith(
+                fontWeight: FontWeight.w600,
+                color: contrastColor,
+              ),
             ),
           ],
         ),

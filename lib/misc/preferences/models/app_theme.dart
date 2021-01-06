@@ -148,6 +148,10 @@ class AppTheme {
         color: lighten(primaryColor, .05),
         centerTitle: true,
       ),
+      dialogBackgroundColor: primaryColor,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: lighten(primaryColor, .05),
+      ),
       cardTheme: CardTheme(
         color: lighten(primaryColor, .05),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

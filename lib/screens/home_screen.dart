@@ -32,10 +32,11 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final _textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Chess Clock'),
-        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -44,10 +45,16 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
         currentIndex: _tabController.index,
         onTap: (index) => setState(() => _tabController.index = index),
+        selectedLabelStyle: _textTheme.bodyText2.apply(
+          fontSizeDelta: -2,
+          fontWeightDelta: 2,
+        ),
+        unselectedLabelStyle: _textTheme.bodyText2.apply(
+          fontSizeDelta: -2,
+          fontWeightDelta: 2,
+        ),
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.alarm_rounded),

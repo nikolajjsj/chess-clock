@@ -83,7 +83,7 @@ class _AddClockScreenState extends State<AddClockScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add Clock'), centerTitle: true),
+      appBar: AppBar(title: Text('Add Clock')),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check_rounded),
         onPressed: () => addChessClock(),

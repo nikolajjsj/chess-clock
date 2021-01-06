@@ -11,6 +11,8 @@ class ClockCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Card(
       child: InkWell(
         onTap: () => Navigator.of(context).push(ClockScreen.route(chessClock)),
@@ -20,7 +22,10 @@ class ClockCard extends StatelessWidget {
             children: [
               Text(
                 chessClock.name,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+                style: textTheme.bodyText2.copyWith(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               Column(
