@@ -128,14 +128,15 @@ class AppTheme {
   }
 
   void _setupThemeData() {
-    final Color complimentaryColor = backgroundComplimentaryColor;
+    final Color _complimentaryColor = backgroundComplimentaryColor;
+    final Color _lightenedColor = lighten(primaryColor, .05);
 
     data = ThemeData(
       brightness: brightness,
       textTheme: textTheme,
       primaryColor: primaryColor,
       accentColor: accentColor,
-      buttonColor: complimentaryColor,
+      buttonColor: _complimentaryColor,
       dividerColor: brightness == Brightness.dark
           ? Colors.white.withOpacity(.2)
           : Colors.black.withOpacity(.2),
@@ -144,17 +145,24 @@ class AppTheme {
       canvasColor: primaryColor,
       toggleableActiveColor: accentColor,
       textSelectionHandleColor: accentColor,
-      appBarTheme: AppBarTheme(
-        color: lighten(primaryColor, .05),
-        centerTitle: true,
-      ),
+      appBarTheme: AppBarTheme(color: _lightenedColor, centerTitle: true),
       dialogBackgroundColor: primaryColor,
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: lighten(primaryColor, .05),
-      ),
       cardTheme: CardTheme(
-        color: lighten(primaryColor, .05),
+        color: _lightenedColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: _lightenedColor,
+        selectedItemColor: accentColor,
+        unselectedItemColor: _complimentaryColor.withOpacity(.5),
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: textTheme.bodyText2.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+        unselectedLabelStyle: textTheme.bodyText2.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: fontSize - 1,
+        ),
       ),
     );
   }
