@@ -34,6 +34,7 @@ class _ClockScreenState extends State<ClockScreen> {
   double _blackStart;
   bool _isPlaying = false;
   bool _shouldSwitchPlayer = true;
+  bool _gameOver = false;
 
   // delay timer
   Timer _delayTimer;
@@ -43,32 +44,54 @@ class _ClockScreenState extends State<ClockScreen> {
     _whiteTimer?.cancel();
     _blackTimer?.cancel();
     _delayTimer?.cancel();
+    bool isWhite = _currentPlayer == CurrentPlayer.White;
 
-    if (_currentPlayer == CurrentPlayer.White) {
-      _delayTimer = Timer(
-        Duration(seconds: widget.chessClock.white.delay ?? 0),
-        () => _whiteTimer = Timer.periodic(
-          const Duration(milliseconds: 100),
-          (Timer timer) => setState(
-            () => _whiteStart <= 0
-                ? timer.cancel()
-                : _whiteStart = _whiteStart - 0.1,
-          ),
-        ),
-      );
-    } else {
-      _delayTimer = Timer(
-        Duration(seconds: widget.chessClock.black.delay ?? 0),
-        () => _blackTimer = Timer.periodic(
-          const Duration(milliseconds: 100),
-          (Timer timer) => setState(
-            () => _blackStart <= 0
-                ? timer.cancel()
-                : _blackStart = _blackStart - 0.1,
-          ),
-        ),
-      );
-    }
+    _delayTimer = Timer(
+      Duration(
+        seconds: isWhite
+            ? widget.chessClock.white.delay ?? 0
+            : widget.chessClock.black.delay ?? 0,
+      ),
+      () {
+        if (isWhite) {
+          _whiteTimer = Timer.periodic(
+            const Duration(milliseconds: 100),
+            (Timer timer) => setState(
+              () {
+                if (_whiteStart <= 0.0 || _blackStart <= 0.0) {
+                  timer.cancel();
+                  _gameOver = true;
+                } else {
+                  if (isWhite) {
+                    _whiteStart -= 0.1;
+                  } else {
+                    _blackStart -= 0.1;
+                  }
+                }
+              },
+            ),
+          );
+        } else {
+          _blackTimer = Timer.periodic(
+            const Duration(milliseconds: 100),
+            (Timer timer) => setState(
+              () {
+                if (_whiteStart <= 0.0 || _blackStart <= 0.0) {
+                  timer.cancel();
+                  _gameOver = true;
+                } else {
+                  if (isWhite) {
+                    _whiteStart -= 0.1;
+                  } else {
+                    _blackStart -= 0.1;
+                  }
+                }
+              },
+            ),
+          );
+        }
+      },
+    );
     _shouldSwitchPlayer = true;
   }
 
@@ -92,6 +115,7 @@ class _ClockScreenState extends State<ClockScreen> {
   }
 
   void reset() {
+    _gameOver = false;
     _currentPlayer = CurrentPlayer.White;
     pauseTimer();
     _whiteStart = widget.chessClock.white.time;
@@ -133,27 +157,30 @@ class _ClockScreenState extends State<ClockScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Column(
-            children: [
-              ChessPlayerWidget(
-                chessTimer: widget.chessClock.black,
-                time: _blackStart,
-                isWhite: false,
-                currentPlayer: _currentPlayer,
-                isPlaying: _isPlaying,
-                playFunction: play,
-                pauseFunction: pauseTimer,
-              ),
-              ChessPlayerWidget(
-                chessTimer: widget.chessClock.white,
-                time: _whiteStart,
-                isWhite: true,
-                currentPlayer: _currentPlayer,
-                isPlaying: _isPlaying,
-                playFunction: play,
-                pauseFunction: pauseTimer,
-              ),
-            ],
+          IgnorePointer(
+            ignoring: _gameOver,
+            child: Column(
+              children: [
+                ChessPlayerWidget(
+                  chessTimer: widget.chessClock.black,
+                  time: _blackStart,
+                  isWhite: false,
+                  currentPlayer: _currentPlayer,
+                  isPlaying: _isPlaying,
+                  playFunction: play,
+                  pauseFunction: pauseTimer,
+                ),
+                ChessPlayerWidget(
+                  chessTimer: widget.chessClock.white,
+                  time: _whiteStart,
+                  isWhite: true,
+                  currentPlayer: _currentPlayer,
+                  isPlaying: _isPlaying,
+                  playFunction: play,
+                  pauseFunction: pauseTimer,
+                ),
+              ],
+            ),
           ),
           AnimatedSwitcher(
             transitionBuilder: (child, animation) => ScaleTransition(
@@ -161,7 +188,7 @@ class _ClockScreenState extends State<ClockScreen> {
               child: FadeTransition(opacity: animation, child: child),
             ),
             duration: const Duration(milliseconds: 150),
-            child: !_isPlaying
+            child: !_isPlaying || _gameOver
                 ? Align(
                     alignment: Alignment.center,
                     child: Row(
