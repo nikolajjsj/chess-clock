@@ -151,6 +151,14 @@ class AppTheme {
         color: _lightenedColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
+      sliderTheme: SliderThemeData(
+        activeTickMarkColor: accentColor,
+        inactiveTickMarkColor: accentColor,
+        activeTrackColor: accentColor,
+        inactiveTrackColor: _lightenedColor,
+        thumbColor: accentColor,
+        valueIndicatorColor: accentColor,
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: _lightenedColor,
         selectedItemColor: accentColor,
