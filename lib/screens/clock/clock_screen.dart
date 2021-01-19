@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:chessclock/misc/models/clock_model.dart';
 import 'package:chessclock/misc/models/player_enum.dart';
 import 'package:chessclock/misc/models/timer_model.dart';
+import 'package:chessclock/misc/preferences/general_preferences.dart';
+import 'package:chessclock/misc/service_locator.dart';
 import 'package:chessclock/misc/utils/time_utils.dart';
 import 'package:chessclock/widgets/clock_detail_cards/detail_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -273,7 +275,9 @@ class ChessPlayerWidget extends StatelessWidget {
                   ? (_sHeight * .75)
                   : (_sHeight * .25)
               : (_sHeight * .5),
-          duration: const Duration(milliseconds: 350),
+          duration: Duration(
+            milliseconds: app<GeneralPreferences>().animationDuration,
+          ),
           curve: Curves.easeOutCubic,
           child: Align(
             alignment: Alignment.bottomLeft,
