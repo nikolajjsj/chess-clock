@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:chessclock/misc/models/clock_model.dart';
 import 'package:chessclock/misc/models/player_enum.dart';
 import 'package:chessclock/misc/models/timer_model.dart';
@@ -9,6 +8,8 @@ import 'package:chessclock/widgets/clock_detail_cards/detail_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'dart:async';
 
 class ClockScreen extends StatefulWidget {
   static Route route(ChessClock chessClock) {
@@ -38,6 +39,20 @@ class _ClockScreenState extends State<ClockScreen> {
   bool _shouldSwitchPlayer = true;
   bool _gameOver = false;
 
+  // Sound players for sound effect
+  final AssetsAudioPlayer tapPlayer = AssetsAudioPlayer.newPlayer()
+    ..open(
+      Audio('assets/sounds/tap.wav'),
+      autoStart: false,
+      respectSilentMode: false,
+    );
+  final AssetsAudioPlayer overPlayer = AssetsAudioPlayer.newPlayer()
+    ..open(
+      Audio('assets/sounds/gameover.wav'),
+      autoStart: false,
+      respectSilentMode: false,
+    );
+
   // delay timer
   Timer _delayTimer;
 
@@ -63,6 +78,10 @@ class _ClockScreenState extends State<ClockScreen> {
                 if (_whiteStart <= 0.0 || _blackStart <= 0.0) {
                   timer.cancel();
                   _gameOver = true;
+                  AssetsAudioPlayer.newPlayer().open(
+                    Audio('assets/sounds/gameover.mp3'),
+                    autoStart: true,
+                  );
                 } else {
                   if (isWhite) {
                     _whiteStart -= 0.1;
@@ -81,6 +100,10 @@ class _ClockScreenState extends State<ClockScreen> {
                 if (_whiteStart <= 0.0 || _blackStart <= 0.0) {
                   timer.cancel();
                   _gameOver = true;
+                  AssetsAudioPlayer.newPlayer().open(
+                    Audio('assets/sounds/gameover.mp3'),
+                    autoStart: true,
+                  );
                 } else {
                   if (isWhite) {
                     _whiteStart -= 0.1;
@@ -107,6 +130,8 @@ class _ClockScreenState extends State<ClockScreen> {
 
   void play() {
     if (_shouldSwitchPlayer) {
+      tapPlayer.stop();
+      tapPlayer.play();
       increment();
       _currentPlayer == CurrentPlayer.White
           ? _currentPlayer = CurrentPlayer.Black
@@ -146,10 +171,10 @@ class _ClockScreenState extends State<ClockScreen> {
 
   @override
   void dispose() {
+    super.dispose();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     _whiteTimer?.cancel();
     _blackTimer?.cancel();
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    super.dispose();
   }
 
   @override
