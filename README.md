@@ -1,3 +1,3 @@
 # chessclock
 
-A Chess Clock made with the Flutter framework
+A simple Chess Clock made using the Flutter framework
