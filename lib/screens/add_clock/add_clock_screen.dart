@@ -10,15 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:chessclock/misc/service_locator.dart';
 
 class AddClockScreen extends StatefulWidget {
-  static Route route({ChessClock chessClock}) {
+  static Route route({ChessClock? chessClock}) {
     return CupertinoPageRoute(
       builder: (context) => AddClockScreen(chessClock: chessClock),
     );
   }
 
-  final ChessClock chessClock;
+  final ChessClock? chessClock;
 
-  const AddClockScreen({Key key, this.chessClock}) : super(key: key);
+  const AddClockScreen({Key? key, this.chessClock}) : super(key: key);
 
   @override
   _AddClockScreenState createState() => _AddClockScreenState();
@@ -26,12 +26,12 @@ class AddClockScreen extends StatefulWidget {
 
 class _AddClockScreenState extends State<AddClockScreen> {
   TextEditingController _textController = TextEditingController();
-  double whiteTime;
-  double blackTime;
-  double whiteIncrement;
-  double blackIncrement;
-  double whiteDelay;
-  double blackDelay;
+  double? whiteTime;
+  double? blackTime;
+  double? whiteIncrement;
+  double? blackIncrement;
+  double? whiteDelay;
+  double? blackDelay;
 
   void changeWhiteTime(double val) => setState(() => whiteTime = val);
   void changeBlackTime(double val) => setState(() => blackTime = val);
@@ -44,13 +44,13 @@ class _AddClockScreenState extends State<AddClockScreen> {
         name: _textController.text,
         white: ChessTimer(
           time: whiteTime,
-          increment: whiteIncrement == 0.0 ? null : whiteIncrement.toInt(),
-          delay: whiteDelay == 0.0 ? null : whiteDelay.toInt(),
+          increment: whiteIncrement == 0.0 ? null : whiteIncrement!.toInt(),
+          delay: whiteDelay == 0.0 ? null : whiteDelay!.toInt(),
         ),
         black: ChessTimer(
           time: blackTime,
-          increment: blackIncrement == 0.0 ? null : blackIncrement.toInt(),
-          delay: blackDelay == 0.0 ? null : blackDelay.toInt(),
+          increment: blackIncrement == 0.0 ? null : blackIncrement!.toInt(),
+          delay: blackDelay == 0.0 ? null : blackDelay!.toInt(),
         ),
       );
 
@@ -72,12 +72,12 @@ class _AddClockScreenState extends State<AddClockScreen> {
   void initState() {
     super.initState();
     _textController.text = widget.chessClock?.name ?? '';
-    whiteTime = widget.chessClock?.white?.time ?? 0.0;
-    blackTime = widget.chessClock?.black?.time ?? 0.0;
-    whiteIncrement = widget.chessClock?.white?.increment?.toDouble() ?? 0.0;
-    blackIncrement = widget.chessClock?.black?.increment?.toDouble() ?? 0.0;
-    whiteDelay = widget.chessClock?.white?.delay?.toDouble() ?? 0.0;
-    blackDelay = widget.chessClock?.black?.delay?.toDouble() ?? 0.0;
+    whiteTime = widget.chessClock?.white.time ?? 0.0;
+    blackTime = widget.chessClock?.black.time ?? 0.0;
+    whiteIncrement = widget.chessClock?.white.increment?.toDouble() ?? 0.0;
+    blackIncrement = widget.chessClock?.black.increment?.toDouble() ?? 0.0;
+    whiteDelay = widget.chessClock?.white.delay?.toDouble() ?? 0.0;
+    blackDelay = widget.chessClock?.black.delay?.toDouble() ?? 0.0;
   }
 
   @override
@@ -130,18 +130,18 @@ class _AddClockScreenState extends State<AddClockScreen> {
 
 class ClockCreationCard extends StatefulWidget {
   final String title;
-  final double white;
-  final double black;
+  final double? white;
+  final double? black;
   final Function changeWhite;
   final Function changeBlack;
 
   ClockCreationCard({
-    Key key,
-    @required this.title,
-    @required this.white,
-    @required this.black,
-    @required this.changeWhite,
-    @required this.changeBlack,
+    Key? key,
+    required this.title,
+    required this.white,
+    required this.black,
+    required this.changeWhite,
+    required this.changeBlack,
   }) : super(key: key);
 
   @override
@@ -166,29 +166,32 @@ class _ClockCreationCardState extends State<ClockCreationCard> {
             Row(
               children: [
                 const SizedBox(height: 24.0),
-                RaisedButton(
-                  child: Icon(
+                IconButton(
+                  onPressed: () => setState(() => isComparing = !isComparing),
+                  icon: Icon(
                     Icons.compare_arrows_rounded,
                     color: isComparing ? Colors.white : Colors.red,
                   ),
-                  color: isComparing ? Colors.green : Colors.white,
-                  onPressed: () => setState(() => isComparing = !isComparing),
                 ),
                 const SizedBox(width: 24.0),
                 Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      RaisedButton(
+                      TextButton(
                         child: Text(
-                          getTimeStringFromDouble(widget.white),
+                          getTimeStringFromDouble(widget.white!),
                           style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.w900,
                             fontSize: 20.0,
                           ),
                         ),
-                        color: Colors.grey[200],
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.grey[200]!,
+                          ),
+                        ),
                         onPressed: () => showDialog(
                           context: context,
                           builder: (context) => TimeDialog(
@@ -199,16 +202,20 @@ class _ClockCreationCardState extends State<ClockCreationCard> {
                           ),
                         ),
                       ),
-                      RaisedButton(
+                      TextButton(
                         child: Text(
-                          getTimeStringFromDouble(widget.black),
+                          getTimeStringFromDouble(widget.black!),
                           style: TextStyle(
                             color: Colors.grey[400],
                             fontWeight: FontWeight.w900,
                             fontSize: 20.0,
                           ),
                         ),
-                        color: Colors.grey[900],
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.grey[900]!,
+                          ),
+                        ),
                         onPressed: () => showDialog(
                           context: context,
                           builder: (context) => TimeDialog(

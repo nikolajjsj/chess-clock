@@ -8,16 +8,16 @@ class DetailCard extends StatelessWidget {
   final bool showSeconds;
 
   const DetailCard({
-    Key key,
-    @required this.detail,
-    @required this.iconData,
+    Key? key,
+    required this.detail,
+    required this.iconData,
     this.forWhite = true,
     this.showSeconds = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final color = forWhite ? Colors.grey[300] : Colors.grey[900];
+    final color = forWhite ? Colors.grey[300]! : Colors.grey[900]!;
     final contrastColor = getContrastColor(color);
     final textTheme = Theme.of(context).textTheme;
 
@@ -31,7 +31,7 @@ class DetailCard extends StatelessWidget {
             const SizedBox(width: 4.0),
             Text(
               detail + (showSeconds ? 's' : ''),
-              style: textTheme.bodyText1.copyWith(
+              style: textTheme.bodyText1!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: contrastColor,
               ),

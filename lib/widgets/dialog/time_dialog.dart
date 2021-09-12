@@ -5,8 +5,8 @@ class TimeDialog extends StatefulWidget {
   final Function(double) onChanged;
 
   const TimeDialog({
-    Key key,
-    @required this.onChanged,
+    Key? key,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -24,11 +24,10 @@ class _TimeDialogState extends State<TimeDialog> {
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
     final _textTheme = _theme.textTheme;
-    final _accentColor = _theme.accentColor;
 
     return AlertDialog(
       actions: [
-        FlatButton(
+        TextButton(
           child: Text('CONFIRM', style: _textTheme.bodyText2),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -48,8 +47,6 @@ class _TimeDialogState extends State<TimeDialog> {
             max: 10,
             divisions: 10,
             label: _hours.toStringAsFixed(0),
-            inactiveColor: _accentColor,
-            activeColor: _accentColor,
             onChanged: (val) {
               setState(() => _hours = val);
               widget.onChanged.call(getReturnValue());
@@ -62,8 +59,6 @@ class _TimeDialogState extends State<TimeDialog> {
             max: 60,
             divisions: 60,
             label: _minutes.toStringAsFixed(0),
-            inactiveColor: _accentColor,
-            activeColor: _accentColor,
             onChanged: (val) {
               setState(() => _minutes = val);
               widget.onChanged.call(getReturnValue());
@@ -76,8 +71,6 @@ class _TimeDialogState extends State<TimeDialog> {
             max: 60,
             divisions: 60,
             label: _seconds.toStringAsFixed(0),
-            inactiveColor: _accentColor,
-            activeColor: _accentColor,
             onChanged: (val) {
               setState(() => _seconds = val);
               widget.onChanged.call(getReturnValue());

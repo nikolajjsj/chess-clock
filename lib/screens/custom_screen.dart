@@ -16,9 +16,9 @@ class CustomScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is CustomClocksLoaded) {
           return ListView.builder(
-            itemCount: state.timers.length,
+            itemCount: state.timers!.length,
             itemBuilder: (context, index) {
-              final ChessClock _timer = state.timers[index];
+              final ChessClock? _timer = state.timers![index];
 
               return InkWell(
                 onTap: () =>
@@ -40,17 +40,20 @@ class CustomScreen extends StatelessWidget {
                             style: _theme.textTheme.bodyText2,
                           ),
                           onTap: () {
-                            BlocProvider.of<AddClockBloc>(context)
-                                .add(RemoveCustomClock(index: index));
+                            BlocProvider.of<AddClockBloc>(context).add(
+                              RemoveCustomClock(index: index),
+                            );
                             Navigator.of(context).pop();
                           },
                         ),
                       ],
                     ),
                     actions: [
-                      FlatButton(
-                        child:
-                            Text('CANCEL', style: _theme.textTheme.bodyText2),
+                      TextButton(
+                        child: Text(
+                          'CANCEL',
+                          style: _theme.textTheme.bodyText2,
+                        ),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                     ],

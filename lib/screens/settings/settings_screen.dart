@@ -35,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           Slider(
-            value: _duration?.toDouble() ?? 0,
+            value: _duration.toDouble(),
             min: 0,
             max: 1000,
             divisions: 10,
@@ -49,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             builder: (context, state) {
               return SwitchListTile(
                 title: Text('Follow system theme', style: textTheme.bodyText2),
-                value: state.followSystem,
+                value: state.followSystem!,
                 onChanged: (val) => context
                     .read<ThemeBloc>()
                     .add(ChangeTheme(id: state.id, followSystem: val)),

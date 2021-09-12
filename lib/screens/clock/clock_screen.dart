@@ -12,17 +12,17 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'dart:async';
 
 class ClockScreen extends StatefulWidget {
-  static Route route(ChessClock chessClock) {
+  static Route route(ChessClock? chessClock) {
     return CupertinoPageRoute(
       builder: (context) => ClockScreen(chessClock: chessClock),
     );
   }
 
-  final ChessClock chessClock;
+  final ChessClock? chessClock;
 
   const ClockScreen({
-    Key key,
-    @required this.chessClock,
+    Key? key,
+    required this.chessClock,
   }) : super(key: key);
 
   @override
@@ -31,10 +31,10 @@ class ClockScreen extends StatefulWidget {
 
 class _ClockScreenState extends State<ClockScreen> {
   CurrentPlayer _currentPlayer = CurrentPlayer.Black;
-  Timer _whiteTimer;
-  Timer _blackTimer;
-  double _whiteStart;
-  double _blackStart;
+  Timer _whiteTimer = Timer(Duration(seconds: 0), () {});
+  Timer _blackTimer = Timer(Duration(seconds: 0), () {});
+  double _whiteStart = 0.0;
+  double _blackStart = 0.0;
   bool _isPlaying = false;
   bool _shouldSwitchPlayer = true;
   bool _gameOver = false;
@@ -48,26 +48,26 @@ class _ClockScreenState extends State<ClockScreen> {
     );
   final AssetsAudioPlayer overPlayer = AssetsAudioPlayer.newPlayer()
     ..open(
-      Audio('assets/sounds/gameover.wav'),
+      Audio('assets/sounds/gameover.mp3'),
       autoStart: false,
       respectSilentMode: false,
     );
 
   // delay timer
-  Timer _delayTimer;
+  Timer _delayTimer = Timer(Duration(seconds: 0), () {});
 
   Future<void> startTimer() async {
     _isPlaying = true;
-    _whiteTimer?.cancel();
-    _blackTimer?.cancel();
-    _delayTimer?.cancel();
+    _whiteTimer.cancel();
+    _blackTimer.cancel();
+    _delayTimer.cancel();
     bool isWhite = _currentPlayer == CurrentPlayer.White;
 
     _delayTimer = Timer(
       Duration(
         seconds: isWhite
-            ? widget.chessClock.white.delay ?? 0
-            : widget.chessClock.black.delay ?? 0,
+            ? widget.chessClock!.white.delay ?? 0
+            : widget.chessClock!.black.delay ?? 0,
       ),
       () {
         if (isWhite) {
@@ -123,8 +123,8 @@ class _ClockScreenState extends State<ClockScreen> {
   void pauseTimer() {
     _isPlaying = false;
     _shouldSwitchPlayer = false;
-    _whiteTimer?.cancel();
-    _blackTimer?.cancel();
+    _whiteTimer.cancel();
+    _blackTimer.cancel();
     setState(() {});
   }
 
@@ -145,36 +145,36 @@ class _ClockScreenState extends State<ClockScreen> {
     _gameOver = false;
     _currentPlayer = CurrentPlayer.White;
     pauseTimer();
-    _whiteStart = widget.chessClock.white.time;
-    _blackStart = widget.chessClock.black.time;
+    _whiteStart = widget.chessClock!.white.time ?? 0.0;
+    _blackStart = widget.chessClock!.black.time ?? 0.0;
     setState(() {});
   }
 
   void increment() {
     bool white = _currentPlayer == CurrentPlayer.White;
-    if (widget.chessClock.white.time == _whiteStart && white) return;
-    if (widget.chessClock.black.time == _blackStart && !white) return;
-    if (widget.chessClock.black.increment != null && !white) {
-      _blackStart = _blackStart + widget.chessClock.black.increment;
-    } else if (widget.chessClock.white.increment != null && white) {
-      _whiteStart = _whiteStart + widget.chessClock.white.increment;
+    if (widget.chessClock!.white.time == _whiteStart && white) return;
+    if (widget.chessClock!.black.time == _blackStart && !white) return;
+    if (widget.chessClock!.black.increment != null && !white) {
+      _blackStart = _blackStart + widget.chessClock!.black.increment!;
+    } else if (widget.chessClock!.white.increment != null && white) {
+      _whiteStart = _whiteStart + widget.chessClock!.white.increment!;
     }
   }
 
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    _whiteStart = widget.chessClock.white.time;
-    _blackStart = widget.chessClock.black.time;
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    _whiteStart = widget.chessClock!.white.time ?? 0.0;
+    _blackStart = widget.chessClock!.black.time ?? 0.0;
   }
 
   @override
   void dispose() {
     super.dispose();
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    _whiteTimer?.cancel();
-    _blackTimer?.cancel();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    _whiteTimer.cancel();
+    _blackTimer.cancel();
   }
 
   @override
@@ -189,7 +189,7 @@ class _ClockScreenState extends State<ClockScreen> {
             child: Column(
               children: [
                 ChessPlayerWidget(
-                  chessTimer: widget.chessClock.black,
+                  chessTimer: widget.chessClock!.black,
                   time: _blackStart,
                   isWhite: false,
                   currentPlayer: _currentPlayer,
@@ -198,7 +198,7 @@ class _ClockScreenState extends State<ClockScreen> {
                   pauseFunction: pauseTimer,
                 ),
                 ChessPlayerWidget(
-                  chessTimer: widget.chessClock.white,
+                  chessTimer: widget.chessClock!.white,
                   time: _whiteStart,
                   isWhite: true,
                   currentPlayer: _currentPlayer,
@@ -257,7 +257,7 @@ class _ClockScreenState extends State<ClockScreen> {
 
 class ChessPlayerWidget extends StatelessWidget {
   final ChessTimer chessTimer;
-  final double time;
+  final double? time;
   final bool isWhite;
   final CurrentPlayer currentPlayer;
   final bool isPlaying;
@@ -265,14 +265,14 @@ class ChessPlayerWidget extends StatelessWidget {
   final Function pauseFunction;
 
   const ChessPlayerWidget({
-    Key key,
-    @required this.chessTimer,
-    @required this.time,
-    @required this.isWhite,
-    @required this.currentPlayer,
-    @required this.isPlaying,
-    @required this.playFunction,
-    @required this.pauseFunction,
+    Key? key,
+    required this.chessTimer,
+    required this.time,
+    required this.isWhite,
+    required this.currentPlayer,
+    required this.isPlaying,
+    required this.playFunction,
+    required this.pauseFunction,
   }) : super(key: key);
 
   @override
@@ -315,7 +315,7 @@ class ChessPlayerWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        getTimeStringFromDouble(time),
+                        getTimeStringFromDouble(time!),
                         style: TextStyle(
                           color: isWhite ? _blackColor : _whiteColor,
                           fontSize: 52.0,
@@ -343,7 +343,7 @@ class ChessPlayerWidget extends StatelessWidget {
                   const Spacer(),
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 150),
-                    child: isPlaying && isCurrent && !(time <= 0)
+                    child: isPlaying && isCurrent && !(time! <= 0)
                         ? FloatingActionButton(
                             backgroundColor: Colors.red,
                             child:

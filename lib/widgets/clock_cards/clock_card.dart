@@ -5,9 +5,9 @@ import 'package:chessclock/widgets/clock_detail_cards/detail_card.dart';
 import 'package:flutter/material.dart';
 
 class ClockCard extends StatelessWidget {
-  final ChessClock chessClock;
+  final ChessClock? chessClock;
 
-  const ClockCard({Key key, @required this.chessClock}) : super(key: key);
+  const ClockCard({Key? key, required this.chessClock}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,8 @@ class ClockCard extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                chessClock.name,
-                style: textTheme.bodyText2.copyWith(
+                chessClock!.name,
+                style: textTheme.bodyText2!.copyWith(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -33,7 +33,7 @@ class ClockCard extends StatelessWidget {
                   DetailCard(
                     iconData: Icons.alarm,
                     detail: getTimeStringFromDouble(
-                      chessClock.white.time,
+                      chessClock!.white.time!,
                       showDecimal: false,
                     ),
                     showSeconds: false,
@@ -42,38 +42,38 @@ class ClockCard extends StatelessWidget {
                     forWhite: false,
                     iconData: Icons.alarm,
                     detail: getTimeStringFromDouble(
-                      chessClock.black.time,
+                      chessClock!.black.time!,
                       showDecimal: false,
                     ),
                     showSeconds: false,
                   ),
                 ],
               ),
-              if (chessClock.white.increment != null)
+              if (chessClock!.white.increment != null)
                 Column(
                   children: [
                     DetailCard(
                       iconData: Icons.arrow_upward_rounded,
-                      detail: chessClock.white.increment.toStringAsFixed(0),
+                      detail: chessClock!.white.increment!.toStringAsFixed(0),
                     ),
                     DetailCard(
                       forWhite: false,
                       iconData: Icons.arrow_upward_rounded,
-                      detail: chessClock.black.increment.toStringAsFixed(0),
+                      detail: chessClock!.black.increment!.toStringAsFixed(0),
                     ),
                   ],
                 ),
-              if (chessClock.white.delay != null)
+              if (chessClock!.white.delay != null)
                 Column(
                   children: [
                     DetailCard(
                       iconData: Icons.timer_rounded,
-                      detail: chessClock.white.delay.toStringAsFixed(0),
+                      detail: chessClock!.white.delay!.toStringAsFixed(0),
                     ),
                     DetailCard(
                       forWhite: false,
                       iconData: Icons.timer_rounded,
-                      detail: chessClock.black.delay.toStringAsFixed(0),
+                      detail: chessClock!.black.delay!.toStringAsFixed(0),
                     ),
                   ],
                 ),

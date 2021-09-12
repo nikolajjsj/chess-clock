@@ -7,8 +7,8 @@ class AppTheme {
     name = data.name ?? '';
     fontSize = 15;
     bodyFont = 'OpenSans';
-    primaryColor = Color(data.primaryColour);
-    accentColor = Color(data.accentColor) ?? const Color(0xff6b99ff);
+    primaryColor = Color(data.primaryColour!);
+    accentColor = Color(data.accentColor ?? 0xff6b99ff);
 
     _calculateBrightness();
     _calculateButtonTextColor();
@@ -16,21 +16,21 @@ class AppTheme {
     _setupThemeData();
   }
 
-  String name;
-  double fontSize;
-  String bodyFont;
-  Color primaryColor;
-  Color accentColor;
-  Brightness brightness;
-  Color buttonTextColor;
-  TextTheme textTheme;
-  ThemeData data;
+  late String name;
+  double? fontSize;
+  String? bodyFont;
+  Color? primaryColor;
+  Color? accentColor;
+  Brightness? brightness;
+  Color? buttonTextColor;
+  TextTheme? textTheme;
+  ThemeData? data;
 
   Color get backgroundComplimentaryColor =>
       brightness == Brightness.light ? Colors.black : Colors.white;
 
   void _calculateBrightness() {
-    brightness = primaryColor.computeLuminance() > .5
+    brightness = primaryColor!.computeLuminance() > .5
         ? Brightness.light
         : Brightness.dark;
   }
@@ -40,7 +40,7 @@ class AppTheme {
   /// (white / black).
   void _calculateButtonTextColor() {
     final Brightness primaryColorBrightness =
-        ThemeData.estimateBrightnessForColor(primaryColor);
+        ThemeData.estimateBrightnessForColor(primaryColor!);
 
     if (brightness == Brightness.dark) {
       // button color is light
@@ -113,7 +113,7 @@ class AppTheme {
             fontFamily: bodyFont,
           ),
           bodyText1: TextStyle(
-            fontSize: fontSize - 2,
+            fontSize: fontSize! - 2,
             fontFamily: bodyFont,
             color: textColor.withOpacity(0.7),
           ),
@@ -129,14 +129,12 @@ class AppTheme {
 
   void _setupThemeData() {
     final Color _complimentaryColor = backgroundComplimentaryColor;
-    final Color _lightenedColor = lighten(primaryColor, .05);
+    final Color? _lightenedColor = lighten(primaryColor, .05);
 
     data = ThemeData(
       brightness: brightness,
       textTheme: textTheme,
       primaryColor: primaryColor,
-      accentColor: accentColor,
-      buttonColor: _complimentaryColor,
       dividerColor: brightness == Brightness.dark
           ? Colors.white.withOpacity(.2)
           : Colors.black.withOpacity(.2),
@@ -144,33 +142,44 @@ class AppTheme {
       cardColor: primaryColor,
       canvasColor: primaryColor,
       toggleableActiveColor: accentColor,
-      textSelectionHandleColor: accentColor,
-      appBarTheme: AppBarTheme(color: _lightenedColor, centerTitle: true),
+      appBarTheme: AppBarTheme(
+        color: _lightenedColor,
+        centerTitle: true,
+        foregroundColor: getContrastColor(primaryColor!),
+      ),
       dialogBackgroundColor: primaryColor,
       cardTheme: CardTheme(
         color: _lightenedColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       sliderTheme: SliderThemeData(
-        activeTickMarkColor: accentColor,
-        inactiveTickMarkColor: accentColor,
         activeTrackColor: accentColor,
         inactiveTrackColor: _lightenedColor,
         thumbColor: accentColor,
         valueIndicatorColor: accentColor,
+        activeTickMarkColor: accentColor,
+        inactiveTickMarkColor: accentColor,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: _lightenedColor,
         selectedItemColor: accentColor,
         unselectedItemColor: _complimentaryColor.withOpacity(.5),
         type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: textTheme.bodyText2.copyWith(
+        selectedLabelStyle: textTheme!.bodyText2!.copyWith(
           fontWeight: FontWeight.bold,
         ),
-        unselectedLabelStyle: textTheme.bodyText2.copyWith(
+        unselectedLabelStyle: textTheme!.bodyText2!.copyWith(
           fontWeight: FontWeight.bold,
-          fontSize: fontSize - 1,
+          fontSize: fontSize! - 1,
         ),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionHandleColor: accentColor,
+        cursorColor: accentColor,
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: _lightenedColor,
+        foregroundColor: accentColor,
       ),
     );
   }

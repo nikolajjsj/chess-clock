@@ -8,12 +8,15 @@ import 'package:chessclock/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // await hydrated bloc storage
-  HydratedBloc.storage = await HydratedStorage.build();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getTemporaryDirectory(),
+  );
 
   // setup Get_it and SharedPreferences
   setupServiceLocator();
@@ -27,12 +30,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ThemeBloc>(
-          create: (context) => ThemeBloc(),
-        ),
-        BlocProvider<AddClockBloc>(
-          create: (context) => AddClockBloc(),
-        ),
+        BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
+        BlocProvider<AddClockBloc>(create: (context) => AddClockBloc()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
@@ -41,9 +40,9 @@ class MyApp extends StatelessWidget {
 
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: state.followSystem ? lightTheme : state.themeData,
-            darkTheme: state.followSystem ? darkTheme : state.themeData,
-            themeMode: state.followSystem ? ThemeMode.system : ThemeMode.light,
+            theme: state.followSystem! ? lightTheme : state.themeData,
+            darkTheme: state.followSystem! ? darkTheme : state.themeData,
+            themeMode: state.followSystem! ? ThemeMode.system : ThemeMode.light,
             title: 'Chess Clock',
             home: const HomeScreen(),
             builder: (context, child) => MessageWidget(child: child),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SettingsHeader extends StatelessWidget {
   final String title;
 
-  const SettingsHeader({Key key, @required this.title}) : super(key: key);
+  const SettingsHeader({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,9 @@ class SettingsHeader extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Text(
         title,
-        style: _theme.textTheme.bodyText2.copyWith(
+        style: _theme.textTheme.bodyText2!.copyWith(
           fontWeight: FontWeight.bold,
-          color: _theme.accentColor,
+          color: _theme.colorScheme.secondary,
         ),
       ),
     );

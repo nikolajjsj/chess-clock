@@ -18,7 +18,7 @@ class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
 
   @override
   ThemeState fromJson(Map<String, dynamic> json) {
-    int themeId = json['theme'] as int ?? 0;
+    int themeId = json['theme'] as int? ?? 0;
     bool followSystem = json['followSystem'] ?? false;
     return ThemeState(
       id: themeId,
@@ -44,8 +44,8 @@ class ThemeBloc extends HydratedBloc<ThemeEvent, ThemeState> {
     if (event is ChangeTheme) {
       yield ThemeState(
         id: event.id,
-        themeData: themes[event.id].data,
-        followSystem: event.followSystem ?? true,
+        themeData: themes[event.id!].data,
+        followSystem: event.followSystem,
       );
     }
   }

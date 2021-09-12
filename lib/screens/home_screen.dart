@@ -13,13 +13,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this)
-      ..addListener(() => _tabController.previousIndex != _tabController.index
+      ..addListener(() => _tabController!.previousIndex != _tabController!.index
           ? setState(() {})
           : null);
   }
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     super.dispose();
-    _tabController.dispose();
+    _tabController!.dispose();
   }
 
   @override
@@ -43,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _tabController.index,
-        onTap: (index) => setState(() => _tabController.index = index),
+        currentIndex: _tabController!.index,
+        onTap: (index) => setState(() => _tabController!.index = index),
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.alarm_rounded),
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ],
       ),
-      floatingActionButton: _tabController.index == 1 ? const HomeFAB() : null,
+      floatingActionButton: _tabController!.index == 1 ? const HomeFAB() : null,
       body: TabBarView(
         controller: _tabController,
         children: [

@@ -1,5 +1,4 @@
 import 'package:chessclock/misc/models/timer_model.dart';
-import 'package:flutter/material.dart';
 
 class ChessClock {
   final String name;
@@ -7,9 +6,9 @@ class ChessClock {
   final ChessTimer black;
 
   const ChessClock({
-    @required this.name,
-    @required this.white,
-    @required this.black,
+    required this.name,
+    required this.white,
+    required this.black,
   });
 
   ChessClock.fromJson(Map<String, dynamic> json)

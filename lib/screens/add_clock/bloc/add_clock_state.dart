@@ -4,16 +4,16 @@ abstract class AddClockState extends Equatable {
   const AddClockState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class NoCustomClocks extends AddClockState {}
 
 class CustomClocksLoaded extends AddClockState {
-  final List<ChessClock> timers;
+  final List<ChessClock?>? timers;
 
   const CustomClocksLoaded({this.timers});
 
   @override
-  List<Object> get props => [timers];
+  List<Object?> get props => [timers];
 }

@@ -2,9 +2,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Wraps the [SharedPreferences].
 class AppPreferences {
-  SharedPreferences _preferences;
+  SharedPreferences? _preferences;
 
-  SharedPreferences get preferences => _preferences;
+  SharedPreferences? get preferences => _preferences;
 
   // Initializes the [_preferences] instance.
   Future<void> initialize() async {

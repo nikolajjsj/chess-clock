@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-
 class ChessTimer {
-  final double time;
-  final int delay;
-  final int increment;
+  final double? time;
+  final int? delay;
+  final int? increment;
 
   const ChessTimer({
-    @required this.time,
+    required this.time,
     this.delay,
     this.increment,
   });

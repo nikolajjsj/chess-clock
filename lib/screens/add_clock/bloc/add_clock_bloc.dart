@@ -18,9 +18,9 @@ class AddClockBloc extends HydratedBloc<AddClockEvent, AddClockState> {
   }
 
   @override
-  Map<String, dynamic> toJson(AddClockState state) {
+  Map<String, dynamic>? toJson(AddClockState state) {
     if (state is CustomClocksLoaded) {
-      return {'timers': state.timers.map((clock) => clock.toJson()).toList()};
+      return {'timers': state.timers!.map((clock) => clock!.toJson()).toList()};
     }
     return null;
   }
@@ -29,12 +29,12 @@ class AddClockBloc extends HydratedBloc<AddClockEvent, AddClockState> {
   Stream<AddClockState> mapEventToState(
     AddClockEvent event,
   ) async* {
-    final oldState = state;
+    final AddClockState oldState = state;
 
     if (event is AddCustomClock) {
       yield NoCustomClocks();
       if (oldState is CustomClocksLoaded) {
-        List<ChessClock> _timers = oldState.timers;
+        List<ChessClock?> _timers = oldState.timers!;
         _timers.add(event.chessClock);
         yield CustomClocksLoaded(timers: _timers);
         return;
@@ -43,8 +43,8 @@ class AddClockBloc extends HydratedBloc<AddClockEvent, AddClockState> {
     } else if (event is RemoveCustomClock) {
       yield NoCustomClocks();
       if (oldState is CustomClocksLoaded) {
-        List<ChessClock> _timers = oldState.timers;
-        _timers.removeAt(event.index);
+        List<ChessClock?> _timers = oldState.timers!;
+        _timers.removeAt(event.index!);
         yield CustomClocksLoaded(timers: _timers);
         return;
       }

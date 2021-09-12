@@ -38,7 +38,7 @@ class ThemeSelector extends StatelessWidget {
                       width: 80.0,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: _theme.accentColor,
+                          color: _theme.accentColor!,
                           width: 8.0,
                         ),
                         color: _theme.primaryColor,
